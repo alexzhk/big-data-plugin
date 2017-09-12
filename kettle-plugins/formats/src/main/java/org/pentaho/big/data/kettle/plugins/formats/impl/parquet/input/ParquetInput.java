@@ -20,12 +20,13 @@
  *
  ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.formats.parquet.input;
+package org.pentaho.big.data.kettle.plugins.formats.impl.parquet.input;
 
 import org.apache.commons.vfs2.FileObject;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceLocator;
 import org.pentaho.big.data.kettle.plugins.formats.FormatInputField;
+import org.pentaho.big.data.kettle.plugins.formats.parquet.input.ParquetInputMetaBase;
 import org.pentaho.bigdata.api.format.FormatService;
 import org.pentaho.di.core.RowMetaAndData;
 import org.pentaho.di.core.exception.KettleException;
