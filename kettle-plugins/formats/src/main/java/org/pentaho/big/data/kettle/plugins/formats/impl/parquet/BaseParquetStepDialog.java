@@ -20,14 +20,13 @@
   *
   ******************************************************************************/
 
-package org.pentaho.big.data.kettle.plugins.formats.avro;
+package org.pentaho.big.data.kettle.plugins.formats.impl.parquet;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.provider.UriParser;
 import org.eclipse.jface.window.DefaultToolTip;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
@@ -59,7 +58,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.pentaho.big.data.kettle.plugins.formats.parquet.input.VFSScheme;
+import org.pentaho.big.data.kettle.plugins.formats.impl.parquet.input.VFSScheme;
 import org.pentaho.di.core.exception.KettleFileException;
 import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.di.core.util.Utils;
@@ -77,10 +76,10 @@ import org.pentaho.di.ui.trans.step.BaseStepDialog;
 import org.pentaho.vfs.ui.CustomVfsUiPanel;
 import org.pentaho.vfs.ui.VfsFileChooserDialog;
 
-public abstract class BaseAvroStepDialog<T extends BaseStepMeta & StepMetaInterface> extends BaseStepDialog
+public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInterface> extends BaseStepDialog
     implements StepDialogInterface {
   protected final Class<?> PKG = getClass();
-  protected final Class<?> BPKG = BaseAvroStepDialog.class;
+  protected final Class<?> BPKG = BaseParquetStepDialog.class;
 
   protected T meta;
   protected ModifyListener lsMod;
@@ -109,11 +108,8 @@ public abstract class BaseAvroStepDialog<T extends BaseStepMeta & StepMetaInterf
   protected TextVar wPath;
   protected Button wbBrowse;
   protected VFSScheme selectedVFSScheme;
-  protected CCombo wLocation;
 
-  private static final String HDFS_SCHEME = "hdfs";
-
-  public BaseAvroStepDialog( Shell parent, T in, TransMeta transMeta, String sname ) {
+  public BaseParquetStepDialog( Shell parent, T in, TransMeta transMeta, String sname ) {
     super( parent, (BaseStepMeta) in, transMeta, sname );
     meta = in;
   }
@@ -143,8 +139,7 @@ public abstract class BaseAvroStepDialog<T extends BaseStepMeta & StepMetaInterf
       }
     } );
     getData( meta );
-    updateLocation();
-
+    meta.setChanged( changed );
     int height = Math.max( getMinHeight( shell, getWidth() ), getHeight() );
     shell.setMinimumSize( getWidth(), height );
     shell.setSize( getWidth(), height );
@@ -302,31 +297,30 @@ public abstract class BaseAvroStepDialog<T extends BaseStepMeta & StepMetaInterf
 
   protected Control addFileWidgets( Control prev ) {
     Label wlLocation = new Label( shell, SWT.RIGHT );
-    wlLocation.setText( getBaseMsg( "AvroDialog.Location.Label" ) );
+    wlLocation.setText( getBaseMsg( "ParquetDialog.Location.Label" ) );
     props.setLook( wlLocation );
     new FD( wlLocation ).left( 0, 0 ).top( prev, MARGIN ).apply();
-    wLocation = new CCombo( shell, SWT.BORDER  | SWT.READ_ONLY  );
+    CCombo wLocation = new CCombo( shell, SWT.BORDER  | SWT.READ_ONLY  );
     try {
       List<VFSScheme> availableVFSSchemes = getAvailableVFSSchemes();
       availableVFSSchemes.forEach( scheme -> wLocation.add( scheme.getSchemeName() ) );
       wLocation.addListener( SWT.Selection, event -> {
         this.selectedVFSScheme = availableVFSSchemes.get( wLocation.getSelectionIndex() );
-        this.wPath.setText( "" );
       } );
       if ( !availableVFSSchemes.isEmpty() ) {
         wLocation.select( 0 );
         this.selectedVFSScheme = availableVFSSchemes.get( wLocation.getSelectionIndex() );
       }
     } catch ( KettleFileException ex ) {
-      log.logError( getBaseMsg( "AvroDialog.FileBrowser.KettleFileException" ) );
+      log.logError( getBaseMsg( "ParquetDialog.FileBrowser.KettleFileException" ) );
     } catch ( FileSystemException ex ) {
-      log.logError( getBaseMsg( "AvroDialog.FileBrowser.FileSystemException" ) );
+      log.logError( getBaseMsg( "ParquetDialog.FileBrowser.FileSystemException" ) );
     }
     wLocation.addModifyListener( lsMod );
     new FD( wLocation ).left( 0, 0 ).top( wlLocation, FIELD_LABEL_SEP ).width( FIELD_SMALL ).apply();
 
     Label wlPath = new Label( shell, SWT.RIGHT );
-    wlPath.setText( getBaseMsg( "AvroDialog.Filename.Label" ) );
+    wlPath.setText( getBaseMsg( "ParquetDialog.Filename.Label" ) );
     props.setLook( wlPath );
     new FD( wlPath ).left( 0, 0 ).top( wLocation, FIELDS_SEP ).apply();
     wPath = new TextVar( transMeta, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER );
@@ -341,56 +335,25 @@ public abstract class BaseAvroStepDialog<T extends BaseStepMeta & StepMetaInterf
     int bOffset = ( wbBrowse.computeSize( SWT.DEFAULT, SWT.DEFAULT, false ).y
       - wPath.computeSize( SWT.DEFAULT, SWT.DEFAULT, false ).y ) / 2;
     new FD( wbBrowse ).left( wPath, FIELD_LABEL_SEP ).top( wlPath, FIELD_LABEL_SEP - bOffset ).apply();
+    wPath.addModifyListener( lsMod );
     return wPath;
   }
 
   protected void browseForFileInputPath() {
     try {
-      String path = transMeta.environmentSubstitute( wPath.getText() );
-      VfsFileChooserDialog fileChooserDialog;
-      String fileName;
-      if ( Utils.isEmpty( path ) ) {
-        fileChooserDialog = getVfsFileChooserDialog( null, null );
-        fileName = selectedVFSScheme.getScheme() + "://";
-      } else {
-        FileObject initialFile = getInitialFile( wPath.getText() );
-        FileObject rootFile = initialFile.getFileSystem().getRoot();
-        fileChooserDialog = getVfsFileChooserDialog( rootFile, initialFile );
-        fileName = null;
-      }
-
+      FileObject initialFile = getInitialFile( wPath.getText() );
+      FileObject rootFile = initialFile.getFileSystem().getRoot();
+      VfsFileChooserDialog fileChooserDialog = getVfsFileChooserDialog( rootFile, initialFile );
       FileObject selectedFile =
-          fileChooserDialog.open( shell, null, selectedVFSScheme.getScheme(), true, fileName, FILES_FILTERS,
-              fileFilterNames, true, VfsFileChooserDialog.VFS_DIALOG_OPEN_FILE_OR_DIRECTORY, true, true );
+          fileChooserDialog.open( shell, new String[] {}, selectedVFSScheme.getScheme(), true, null, FILES_FILTERS,
+              fileFilterNames, true, VfsFileChooserDialog.VFS_DIALOG_OPEN_FILE_OR_DIRECTORY, false, true );
       if ( selectedFile != null ) {
         wPath.setText( selectedFile.getURL().toString() );
-        updateLocation();
       }
     } catch ( KettleFileException ex ) {
-      log.logError( getBaseMsg( "AvroInputDialog.FileBrowser.KettleFileException" ) );
+      log.logError( getBaseMsg( "ParquetInputDialog.FileBrowser.KettleFileException" ) );
     } catch ( FileSystemException ex ) {
-      log.logError( getBaseMsg( "AvroInputDialog.FileBrowser.FileSystemException" ) );
-    }
-  }
-
-  private void updateLocation() {
-    String pathText = wPath.getText();
-    String scheme = pathText.isEmpty() ? HDFS_SCHEME : UriParser.extractScheme( pathText );
-    if ( scheme != null ) {
-      try {
-        List<VFSScheme> availableVFSSchemes = getAvailableVFSSchemes();
-        for ( int i = 0; i < availableVFSSchemes.size(); i++ ) {
-          VFSScheme s = availableVFSSchemes.get( i );
-          if ( scheme.equals( s.getScheme() ) ) {
-            wLocation.select( i );
-            selectedVFSScheme = s;
-          }
-        }
-      } catch ( KettleFileException ex ) {
-        log.logError( getBaseMsg( "AvroInputDialog.FileBrowser.KettleFileException" ) );
-      } catch ( FileSystemException ex ) {
-        log.logError( getBaseMsg( "AvroInputDialog.FileBrowser.FileSystemException" ) );
-      }
+      log.logError( getBaseMsg( "ParquetInputDialog.FileBrowser.FileSystemException" ) );
     }
   }
 
