@@ -133,58 +133,58 @@ public class HadoopConfigurationBootstrap implements KettleLifecycleListener, Ac
   }
 
   protected synchronized void initProvider() throws ConfigurationException {
-    if ( provider == null ) {
-      HadoopConfigurationPrompter prompter = this.prompter;
-      if ( Utils.isEmpty( getWillBeActiveConfigurationId() ) && prompter != null ) {
-        try {
-          setActiveShim( prompter.getConfigurationSelection( getHadoopConfigurationInfos() ) );
-        } catch ( Exception e ) {
-          throw new ConfigurationException( e.getMessage(), e );
-        }
-      }
-
-      if ( Utils.isEmpty( getWillBeActiveConfigurationId() ) ) {
-        throw new NoShimSpecifiedException(
-          BaseMessages.getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.NoShimSet" ) );
-      }
-
-      // Initialize the HadoopConfigurationProvider
-      try {
-        FileObject hadoopConfigurationsDir = resolveHadoopConfigurationsDirectory();
-        HadoopConfigurationProvider p = initializeHadoopConfigurationProvider( hadoopConfigurationsDir );
-
-        // verify the active configuration exists
-        HadoopConfiguration activeConfig = null;
-        try {
-          activeConfig = p.getActiveConfiguration();
-        } catch ( Exception ex ) {
-          throw new ConfigurationException( BaseMessages
-            .getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.InvalidActiveConfiguration",
-              getActiveConfigurationId() ), ex );
-        }
-        if ( activeConfig == null ) {
-          throw new ConfigurationException( BaseMessages
-            .getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.InvalidActiveConfiguration",
-              getActiveConfigurationId() ) );
-        }
-
-        provider = p;
-
-        for ( HadoopConfigurationListener hadoopConfigurationListener : hadoopConfigurationListeners ) {
-          hadoopConfigurationListener.onConfigurationOpen( activeConfig, true );
-        }
-
-        log.logDetailed( BaseMessages.getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.Loaded" ),
-          provider.getConfigurations().size(), hadoopConfigurationsDir );
-      } catch ( Exception ex ) {
-        if ( ex instanceof ConfigurationException ) {
-          throw (ConfigurationException) ex;
-        } else {
-          throw new ConfigurationException( BaseMessages.getString( PKG,
-            "HadoopConfigurationBootstrap.HadoopConfiguration.StartupError" ), ex );
-        }
-      }
-    }
+//    if ( provider == null ) {
+//      HadoopConfigurationPrompter prompter = this.prompter;
+//      if ( Utils.isEmpty( getWillBeActiveConfigurationId() ) && prompter != null ) {
+//        try {
+//          setActiveShim( prompter.getConfigurationSelection( getHadoopConfigurationInfos() ) );
+//        } catch ( Exception e ) {
+//          throw new ConfigurationException( e.getMessage(), e );
+//        }
+//      }
+//
+//      if ( Utils.isEmpty( getWillBeActiveConfigurationId() ) ) {
+//        throw new NoShimSpecifiedException(
+//          BaseMessages.getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.NoShimSet" ) );
+//      }
+//
+//      // Initialize the HadoopConfigurationProvider
+//      try {
+//        FileObject hadoopConfigurationsDir = resolveHadoopConfigurationsDirectory();
+//        HadoopConfigurationProvider p = initializeHadoopConfigurationProvider( hadoopConfigurationsDir );
+//
+//        // verify the active configuration exists
+//        HadoopConfiguration activeConfig = null;
+//        try {
+//          activeConfig = p.getActiveConfiguration();
+//        } catch ( Exception ex ) {
+//          throw new ConfigurationException( BaseMessages
+//            .getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.InvalidActiveConfiguration",
+//              getActiveConfigurationId() ), ex );
+//        }
+//        if ( activeConfig == null ) {
+//          throw new ConfigurationException( BaseMessages
+//            .getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.InvalidActiveConfiguration",
+//              getActiveConfigurationId() ) );
+//        }
+//
+//        provider = p;
+//
+//        for ( HadoopConfigurationListener hadoopConfigurationListener : hadoopConfigurationListeners ) {
+//          hadoopConfigurationListener.onConfigurationOpen( activeConfig, true );
+//        }
+//
+//        log.logDetailed( BaseMessages.getString( PKG, "HadoopConfigurationBootstrap.HadoopConfiguration.Loaded" ),
+//          provider.getConfigurations().size(), hadoopConfigurationsDir );
+//      } catch ( Exception ex ) {
+//        if ( ex instanceof ConfigurationException ) {
+//          throw (ConfigurationException) ex;
+//        } else {
+//          throw new ConfigurationException( BaseMessages.getString( PKG,
+//            "HadoopConfigurationBootstrap.HadoopConfiguration.StartupError" ), ex );
+//        }
+//      }
+//    }
   }
 
   /**

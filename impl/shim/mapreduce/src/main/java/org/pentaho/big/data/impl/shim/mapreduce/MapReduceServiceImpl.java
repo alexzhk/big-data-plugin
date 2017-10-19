@@ -43,6 +43,7 @@ import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.job.entries.hadoopjobexecutor.JarUtility;
 import org.pentaho.hadoop.PluginPropertiesUtil;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 
 import java.io.IOException;
@@ -60,26 +61,26 @@ public class MapReduceServiceImpl implements MapReduceService {
   public static final Class<?> PKG = MapReduceServiceImpl.class;
   private final NamedCluster namedCluster;
   private final HadoopShim hadoopShim;
-  private final HadoopConfiguration hadoopConfiguration;
+  private final HasConfiguration hadoopConfiguration;
   private final ExecutorService executorService;
   private final List<TransformationVisitorService> visitorServices;
   private final JarUtility jarUtility;
   private final PluginPropertiesUtil pluginPropertiesUtil;
   private final PluginRegistry pluginRegistry;
 
-  public MapReduceServiceImpl( NamedCluster namedCluster, HadoopConfiguration hadoopConfiguration,
+  public MapReduceServiceImpl( NamedCluster namedCluster, HasConfiguration hadoopConfiguration,
                                ExecutorService executorService, List<TransformationVisitorService> visitorServices ) {
     this( namedCluster, hadoopConfiguration, executorService, new JarUtility(), new PluginPropertiesUtil(),
       PluginRegistry.getInstance(), visitorServices );
   }
 
-  public MapReduceServiceImpl( NamedCluster namedCluster, HadoopConfiguration hadoopConfiguration,
+  public MapReduceServiceImpl( NamedCluster namedCluster, HasConfiguration hadoopConfiguration,
                                ExecutorService executorService, JarUtility jarUtility,
                                PluginPropertiesUtil pluginPropertiesUtil, PluginRegistry pluginRegistry,
                                List<TransformationVisitorService> visitorServices ) {
     this.namedCluster = namedCluster;
     this.hadoopConfiguration = hadoopConfiguration;
-    this.hadoopShim = hadoopConfiguration.getHadoopShim();
+    this.hadoopShim = hadoopConfiguration.getHadoopConfiguration().getHadoopShim();
     this.executorService = executorService;
     this.jarUtility = jarUtility;
     this.pluginPropertiesUtil = pluginPropertiesUtil;
@@ -108,7 +109,7 @@ public class MapReduceServiceImpl implements MapReduceService {
     Properties pmrProperties;
     try {
       pmrProperties = pluginPropertiesUtil.loadPluginProperties( pluginInterface );
-      return new PentahoMapReduceJobBuilderImpl( namedCluster, hadoopConfiguration, log, variableSpace, pluginInterface,
+      return new PentahoMapReduceJobBuilderImpl( namedCluster, hadoopConfiguration.getHadoopConfiguration(), log, variableSpace, pluginInterface,
         pmrProperties, visitorServices );
     } catch ( KettleFileException e ) {
       throw new IOException( e );
