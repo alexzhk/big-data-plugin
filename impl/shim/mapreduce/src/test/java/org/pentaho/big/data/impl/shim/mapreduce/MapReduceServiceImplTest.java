@@ -83,9 +83,9 @@ public class MapReduceServiceImplTest {
     when( hadoopConfiguration.getHadoopShim() ).thenReturn( hadoopShim );
     resolvedJarUrl = new URL( "http://jar.net/jar" );
     List<TransformationVisitorService> visitorServices = new ArrayList<>();
-    mapReduceService =
-      new MapReduceServiceImpl( namedCluster, hadoopConfiguration, executorService, jarUtility, pluginPropertiesUtil,
-        pluginRegistry, visitorServices );
+//    mapReduceService =
+//      new MapReduceServiceImpl( namedCluster, hadoopConfiguration, executorService, jarUtility, pluginPropertiesUtil,
+//        pluginRegistry, visitorServices );
   }
 
   @Test( expected = MapReduceExecutionException.class )
