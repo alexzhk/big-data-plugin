@@ -23,6 +23,7 @@ import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystem;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HadoopConfigurationInterface;
 import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.slf4j.Logger;
@@ -39,9 +40,9 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
   public static final String HDFS = "hdfs";
   private static final Logger LOGGER = LoggerFactory.getLogger( HadoopFileSystemFactoryImpl.class );
   private final boolean isActiveConfiguration;
-  private final HadoopConfiguration hadoopConfiguration;
+  private final HadoopConfigurationInterface hadoopConfiguration;
 
-  public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopConfiguration hadoopConfiguration,
+  public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopConfigurationInterface hadoopConfiguration,
                                       String scheme ) {
     this.isActiveConfiguration = isActiveConfiguration;
     this.hadoopConfiguration = hadoopConfiguration;
