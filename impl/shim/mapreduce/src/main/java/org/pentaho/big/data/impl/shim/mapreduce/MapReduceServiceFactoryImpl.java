@@ -26,7 +26,7 @@ import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory;
 import org.pentaho.bigdata.api.mapreduce.MapReduceService;
 import org.pentaho.bigdata.api.mapreduce.TransformationVisitorService;
-import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -36,12 +36,17 @@ import java.util.concurrent.ExecutorService;
  */
 public class MapReduceServiceFactoryImpl implements NamedClusterServiceFactory<MapReduceService> {
   private final boolean isActiveConfiguration;
-  private final HadoopConfiguration hadoopConfiguration;
+  private final HasConfiguration hadoopConfiguration;
   private final ExecutorService executorService;
   private final List<TransformationVisitorService> visitorServices;
 
+  public MapReduceServiceFactoryImpl( HasConfiguration hadoopConfiguration, ExecutorService executorService,
+                                      List<TransformationVisitorService> visitorServices ) {
+    this(true, hadoopConfiguration, executorService, visitorServices);
+  }
+
   public MapReduceServiceFactoryImpl( boolean isActiveConfiguration,
-                                      HadoopConfiguration hadoopConfiguration, ExecutorService executorService,
+                                      HasConfiguration hadoopConfiguration, ExecutorService executorService,
                                       List<TransformationVisitorService> visitorServices ) {
     this.isActiveConfiguration = isActiveConfiguration;
     this.hadoopConfiguration = hadoopConfiguration;
