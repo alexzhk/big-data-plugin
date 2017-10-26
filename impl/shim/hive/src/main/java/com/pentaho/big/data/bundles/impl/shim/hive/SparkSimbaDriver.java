@@ -23,11 +23,17 @@
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 import java.sql.Driver;
 import java.sql.SQLException;
 
 public class SparkSimbaDriver extends HiveSimbaDriver {
+  public SparkSimbaDriver( JdbcUrlParser jdbcUrlParser,
+                     HasConfiguration hasConfiguration ) {
+    super( jdbcUrlParser, hasConfiguration, "SparkSqlSimba" );
+  }
+
   public SparkSimbaDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
                           JdbcUrlParser jdbcUrlParser ) {
     super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser );

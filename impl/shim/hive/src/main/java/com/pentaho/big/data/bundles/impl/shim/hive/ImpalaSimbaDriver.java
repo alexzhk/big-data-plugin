@@ -23,6 +23,7 @@
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -31,6 +32,11 @@ import java.sql.SQLException;
  * Created by bryan on 3/29/16.
  */
 public class ImpalaSimbaDriver extends HiveSimbaDriver {
+  public ImpalaSimbaDriver( JdbcUrlParser jdbcUrlParser,
+                     HasConfiguration hasConfiguration ) {
+    super( jdbcUrlParser, hasConfiguration, "ImpalaSimba" );
+  }
+
   public ImpalaSimbaDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
                             JdbcUrlParser jdbcUrlParser ) {
     super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser );
