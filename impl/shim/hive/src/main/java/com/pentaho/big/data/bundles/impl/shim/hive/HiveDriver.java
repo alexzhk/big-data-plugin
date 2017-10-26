@@ -22,9 +22,11 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
+import com.google.common.base.Suppliers;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.jdbc.JdbcUrl;
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -48,6 +50,18 @@ public class HiveDriver implements Driver {
   private final boolean defaultConfiguration;
   private final JdbcUrlParser jdbcUrlParser;
   private final String hadoopConfigurationId;
+
+  public HiveDriver( JdbcUrlParser jdbcUrlParser,
+                     HasConfiguration hasConfiguration ) {
+    this( jdbcUrlParser, hasConfiguration, "hive2" );
+  }
+
+  public HiveDriver( JdbcUrlParser jdbcUrlParser,
+                     HasConfiguration hasConfiguration, String driverType ) {
+    this( hasConfiguration.getHadoopConfiguration().getHadoopShim().getJdbcDriver( driverType ),
+            hasConfiguration.getHadoopConfiguration().getIdentifier(),
+            true, jdbcUrlParser );
+  }
 
   public HiveDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
                      JdbcUrlParser jdbcUrlParser ) {
