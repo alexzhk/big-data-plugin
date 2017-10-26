@@ -85,7 +85,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>!org.apache.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.hadoop.*,!org.pentaho.yarn.*,*</Import-Package>
+            <Import-Package>org.apache.hadoop.security,org.pentaho.hadoop.*,org.apache.hadoop.fs.*,org.apache.hadoop.conf.*,!org.apache.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.yarn.*,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>

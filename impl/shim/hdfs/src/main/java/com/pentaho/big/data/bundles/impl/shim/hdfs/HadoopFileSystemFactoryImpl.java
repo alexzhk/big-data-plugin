@@ -22,9 +22,8 @@ import org.apache.hadoop.fs.LocalFileSystem;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystem;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory;
-import org.pentaho.hadoop.shim.HadoopConfiguration;
-import org.pentaho.hadoop.shim.api.HadoopConfigurationInterface;
 import org.pentaho.hadoop.shim.api.Configuration;
+import org.pentaho.hadoop.shim.api.HadoopConfigurationInterface;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +41,10 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
   private final boolean isActiveConfiguration;
   private final HadoopConfigurationInterface hadoopConfiguration;
 
+  public HadoopFileSystemFactoryImpl( HadoopConfigurationInterface hadoopConfiguration ) {
+    this( true, hadoopConfiguration, "hdfs" );
+  }
+
   public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopConfigurationInterface hadoopConfiguration,
                                       String scheme ) {
     this.isActiveConfiguration = isActiveConfiguration;
@@ -52,7 +55,7 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
     String shimIdentifier = namedCluster.getShimIdentifier();
     //handle only if we do not use gateway
     return ( shimIdentifier == null && isActiveConfiguration && !namedCluster.isUseGateway() )
-           || ( hadoopConfiguration.getIdentifier().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
+      || ( hadoopConfiguration.getIdentifier().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
   }
 
   @Override
@@ -66,7 +69,7 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
     final Configuration configuration = hadoopShim.createConfiguration();
     FileSystem fileSystem = (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
     if ( fileSystem instanceof LocalFileSystem ) {
-      LOGGER.error(  "Got a local filesystem, was expecting an hdfs connection" );
+      LOGGER.error( "Got a local filesystem, was expecting an hdfs connection" );
       throw new IOException( "Got a local filesystem, was expecting an hdfs connection" );
     }
 
