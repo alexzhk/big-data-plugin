@@ -532,11 +532,11 @@ public class PentahoMapReduceJobBuilderImpl extends MapReduceJobBuilderImpl impl
 
         stageMetaStoreForHadoop( conf, fs, installPath );
 
-        if ( !hadoopShim.getDistributedCacheUtil().isKettleEnvironmentInstalledAt( fs, kettleEnvInstallDir ) ) {
-          throw new KettleException( BaseMessages.getString( PKG,
-            JOB_ENTRY_HADOOP_TRANS_JOB_EXECUTOR_KETTLE_INSTALLATION_MISSING_FROM,
-            kettleEnvInstallDir.toUri().getPath() ) );
-        }
+//        if ( !hadoopShim.getDistributedCacheUtil().isKettleEnvironmentInstalledAt( fs, kettleEnvInstallDir ) ) {
+//          throw new KettleException( BaseMessages.getString( PKG,
+//            JOB_ENTRY_HADOOP_TRANS_JOB_EXECUTOR_KETTLE_INSTALLATION_MISSING_FROM,
+//            kettleEnvInstallDir.toUri().getPath() ) );
+//        }
 
         log.logBasic( BaseMessages.getString( PKG, JOB_ENTRY_HADOOP_TRANS_JOB_EXECUTOR_CONFIGURING_JOB_WITH_KETTLE_AT,
           kettleEnvInstallDir.toUri().getPath() ) );
