@@ -23,6 +23,7 @@
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 import java.sql.Driver;
 
@@ -30,6 +31,11 @@ import java.sql.Driver;
  * Created by bryan on 3/29/16.
  */
 public class ImpalaDriver extends HiveDriver {
+  public ImpalaDriver( JdbcUrlParser jdbcUrlParser,
+                     HasConfiguration hasConfiguration ) {
+    super( jdbcUrlParser, hasConfiguration, "Impala" );
+  }
+
   public ImpalaDriver( Driver delegate, String hadoopConfigurationId, boolean defaultConfiguration,
                        JdbcUrlParser jdbcUrlParser ) {
     super( delegate, hadoopConfigurationId, defaultConfiguration, jdbcUrlParser );
