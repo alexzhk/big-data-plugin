@@ -25,8 +25,10 @@ package org.pentaho.big.data.impl.shim.oozie;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory;
 import org.pentaho.bigdata.api.oozie.OozieService;
+import org.pentaho.di.job.entries.oozie.OozieClientImpl;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.oozie.shim.api.OozieClient;
 import org.pentaho.oozie.shim.api.OozieClientFactory;
 import org.slf4j.Logger;
@@ -36,6 +38,11 @@ public class OozieServiceFactoryImpl implements NamedClusterServiceFactory<Oozie
   private static final Logger LOGGER = LoggerFactory.getLogger( OozieServiceFactoryImpl.class );
   private final boolean isActiveConfiguration;
   private final HadoopConfiguration hadoopConfiguration;
+
+  public OozieServiceFactoryImpl(HasConfiguration hasConfiguration ) {
+    this.isActiveConfiguration = true;
+    this.hadoopConfiguration = hasConfiguration.getHadoopConfiguration();
+  }
 
   public OozieServiceFactoryImpl( boolean isActiveConfiguration,
                                   HadoopConfiguration hadoopConfiguration ) {
@@ -58,7 +65,8 @@ public class OozieServiceFactoryImpl implements NamedClusterServiceFactory<Oozie
     try {
       OozieClientFactory oozieClientFactory =
         hadoopConfiguration.getShim( OozieClientFactory.class );
-      client = oozieClientFactory.create( oozieUrl );
+      client = new FallbackOozieClientImpl(
+              new org.apache.oozie.client.OozieClient( oozieUrl ) );
     } catch ( ConfigurationException e ) {
       client = new FallbackOozieClientImpl(
         new org.apache.oozie.client.OozieClient( oozieUrl ) );
