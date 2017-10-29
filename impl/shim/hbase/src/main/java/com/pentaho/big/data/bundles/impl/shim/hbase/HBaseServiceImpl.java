@@ -34,6 +34,7 @@ import org.pentaho.di.core.logging.LogChannelInterface;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseShim;
 
@@ -48,10 +49,10 @@ public class HBaseServiceImpl implements HBaseService {
   private final HBaseShim hBaseShim;
   private final HBaseBytesUtilShim bytesUtil;
 
-  public HBaseServiceImpl( NamedCluster namedCluster, HadoopConfiguration hadoopConfiguration )
+  public HBaseServiceImpl( NamedCluster namedCluster, HasConfiguration hadoopConfiguration )
     throws ConfigurationException {
     this.namedCluster = namedCluster;
-    this.hBaseShim = hadoopConfiguration.getHBaseShim();
+    this.hBaseShim = hadoopConfiguration.getHadoopConfiguration().getHBaseShim();
     try {
       bytesUtil = this.hBaseShim.getHBaseConnection().getBytesUtil();
     } catch ( Exception e ) {
