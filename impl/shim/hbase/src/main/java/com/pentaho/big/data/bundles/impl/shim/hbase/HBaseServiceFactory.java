@@ -27,15 +27,20 @@ import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFacto
 import org.pentaho.bigdata.api.hbase.HBaseService;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 
 /**
  * Created by bryan on 1/27/16.
  */
 public class HBaseServiceFactory implements NamedClusterServiceFactory<HBaseService> {
   private final boolean isActiveConfiguration;
-  private final HadoopConfiguration hadoopConfiguration;
+  private final HasConfiguration hadoopConfiguration;
 
-  public HBaseServiceFactory( boolean isActiveConfiguration, HadoopConfiguration hadoopConfiguration ) {
+  public HBaseServiceFactory( HasConfiguration hadoopConfiguration ) {
+    this(true, hadoopConfiguration);
+  }
+
+  public HBaseServiceFactory( boolean isActiveConfiguration, HasConfiguration hadoopConfiguration ) {
     this.isActiveConfiguration = isActiveConfiguration;
     this.hadoopConfiguration = hadoopConfiguration;
   }
