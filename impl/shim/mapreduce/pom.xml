@@ -91,7 +91,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>org.apache.hadoop.mapred.*;uses:=org.apache.hadoop.mapreduce,!com.thoughtworks.xstream,!org.pentaho.di.core.hadoop.*,!org.apache.log4j,*</Import-Package>
+            <Import-Package>org.apache.hadoop.mapred.*;uses:=org.apache.hadoop.mapreduce,com.thoughtworks.xstream,!org.pentaho.di.core.hadoop.*,!org.apache.log4j,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
