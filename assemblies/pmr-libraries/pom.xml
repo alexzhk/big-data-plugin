@@ -835,11 +835,6 @@
       <version>${dependency.pentaho-database-model.revision}</version>
     </dependency>
     <dependency>
-      <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-api</artifactId>
-      <version>${dependency.hadoop-shims-api.revision}</version>
-    </dependency>
-    <dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-metadata</artifactId>
       <version>${dependency.pentaho-metadata.revision}</version>
