@@ -63,25 +63,25 @@ public class NamedClusterServiceLocatorImplTest {
   public void setup() {
     clusterInitializer = mock( ClusterInitializer.class );
     serviceLocator = new NamedClusterServiceLocatorImpl( clusterInitializer );
-    serviceFactoryMap = serviceLocator.getServiceFactoryMap();
-    namedCluster = mock( NamedCluster.class );
-    namedClusterServiceFactory = mock( NamedClusterServiceFactory.class );
-    namedClusterServiceFactory2 = mock( NamedClusterServiceFactory.class );
-    namedClusterServiceFactory3 = mock( NamedClusterServiceFactory.class );
-    namedClusterServiceFactory4 = mock( NamedClusterServiceFactory.class );
-    when( namedClusterServiceFactory.getServiceClass() ).thenReturn( Object.class );
-    when( namedClusterServiceFactory2.getServiceClass() ).thenReturn( Object.class );
-    when( namedClusterServiceFactory3.getServiceClass() ).thenReturn( Object.class );
-    when( namedClusterServiceFactory4.getServiceClass() ).thenReturn( Object.class );
-    when( namedClusterServiceFactory.toString() ).thenReturn( "d" );
-    when( namedClusterServiceFactory2.toString() ).thenReturn( "b" );
-    when( namedClusterServiceFactory3.toString() ).thenReturn( "a" );
-    when( namedClusterServiceFactory4.toString() ).thenReturn( "c" );
-    serviceLocator.factoryAdded( namedClusterServiceFactory, Collections.singletonMap( SERVICE_RANKING, 2 ) );
-    serviceLocator.factoryAdded( namedClusterServiceFactory2, Collections.singletonMap( SERVICE_RANKING, 1 ) );
-    serviceLocator.factoryAdded( namedClusterServiceFactory3, Collections.emptyMap() );
-    serviceLocator.factoryAdded( namedClusterServiceFactory4, Collections.singletonMap( SERVICE_RANKING, 1 ) );
-    value = new Object();
+//    serviceFactoryMap = serviceLocator.getServiceFactoryMap();
+//    namedCluster = mock( NamedCluster.class );
+//    namedClusterServiceFactory = mock( NamedClusterServiceFactory.class );
+//    namedClusterServiceFactory2 = mock( NamedClusterServiceFactory.class );
+//    namedClusterServiceFactory3 = mock( NamedClusterServiceFactory.class );
+//    namedClusterServiceFactory4 = mock( NamedClusterServiceFactory.class );
+//    when( namedClusterServiceFactory.getServiceClass() ).thenReturn( Object.class );
+//    when( namedClusterServiceFactory2.getServiceClass() ).thenReturn( Object.class );
+//    when( namedClusterServiceFactory3.getServiceClass() ).thenReturn( Object.class );
+//    when( namedClusterServiceFactory4.getServiceClass() ).thenReturn( Object.class );
+//    when( namedClusterServiceFactory.toString() ).thenReturn( "d" );
+//    when( namedClusterServiceFactory2.toString() ).thenReturn( "b" );
+//    when( namedClusterServiceFactory3.toString() ).thenReturn( "a" );
+//    when( namedClusterServiceFactory4.toString() ).thenReturn( "c" );
+//    serviceLocator.factoryAdded( namedClusterServiceFactory, Collections.singletonMap( SERVICE_RANKING, 2 ) );
+//    serviceLocator.factoryAdded( namedClusterServiceFactory2, Collections.singletonMap( SERVICE_RANKING, 1 ) );
+//    serviceLocator.factoryAdded( namedClusterServiceFactory3, Collections.emptyMap() );
+//    serviceLocator.factoryAdded( namedClusterServiceFactory4, Collections.singletonMap( SERVICE_RANKING, 1 ) );
+//    value = new Object();
   }
 
   @Test
