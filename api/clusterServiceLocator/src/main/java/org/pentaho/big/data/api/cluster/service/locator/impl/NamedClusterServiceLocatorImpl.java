@@ -104,7 +104,6 @@ public class NamedClusterServiceLocatorImpl implements NamedClusterServiceLocato
 
   @Override public <T> T getService( NamedCluster namedCluster, Class<T> serviceClass )
     throws ClusterInitializationException {
-    clusterInitializer.initialize( namedCluster );
     Lock readLock = readWriteLock.readLock();
     try {
       readLock.lock();

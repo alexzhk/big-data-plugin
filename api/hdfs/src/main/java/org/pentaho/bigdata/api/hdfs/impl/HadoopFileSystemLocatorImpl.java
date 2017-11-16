@@ -52,7 +52,6 @@ public class HadoopFileSystemLocatorImpl implements HadoopFileSystemLocator {
   @Override
   public HadoopFileSystem getHadoopFilesystem( NamedCluster namedCluster, URI uri )
     throws ClusterInitializationException {
-    clusterInitializer.initialize( namedCluster );
     for ( HadoopFileSystemFactory hadoopFileSystemFactory : hadoopFileSystemFactories ) {
       if ( hadoopFileSystemFactory.canHandle( namedCluster ) ) {
         try {
@@ -63,6 +62,7 @@ public class HadoopFileSystemLocatorImpl implements HadoopFileSystemLocator {
         }
       }
     }
+
     return null;
   }
 }
