@@ -39,7 +39,6 @@
     <dependency.mockito.revision>1.9.5</dependency.mockito.revision>
     <dependency.joda-time.revision>2.9.4</dependency.joda-time.revision>
     <dependency.json.revision>8.1-SNAPSHOT</dependency.json.revision>
-    <dependency.hadoop-shims-hdp26.revision>8.1-SNAPSHOT</dependency.hadoop-shims-hdp26.revision>
     <dependency.karaf.revision>3.0.3</dependency.karaf.revision>
     <plugin.org.codehaus.mojo.build-helper-maven-plugin.version>1.5
     </plugin.org.codehaus.mojo.build-helper-maven-plugin.version>
@@ -57,10 +56,8 @@
     <dependency.simple-jndi.revision>1.0.0</dependency.simple-jndi.revision>
     <dependency.xpp3.revision>1.1.4c</dependency.xpp3.revision>
     <dependency.slf4j.revision>1.7.7</dependency.slf4j.revision>
-    <hadoop-shims-cdh512.version>8.1-SNAPSHOT</hadoop-shims-cdh512.version>
     <dependency.jets3t.revision>0.9.3</dependency.jets3t.revision>
     <dependency.xstream.revision>1.4.10</dependency.xstream.revision>
-    <dependency.hadoop-shims-mapr520.revision>8.1-SNAPSHOT</dependency.hadoop-shims-mapr520.revision>
     <dependency.oozie.revision>3.1.3-incubating</dependency.oozie.revision>
     <dependency.pentaho-metadata.revision>8.1-SNAPSHOT</dependency.pentaho-metadata.revision>
     <dependency.maven-clean-plugin.revision>2.5</dependency.maven-clean-plugin.revision>
@@ -87,7 +84,6 @@
     <dependency.avro.revision>1.6.2</dependency.avro.revision>
     <dependency.cxf.revision>2.6.15</dependency.cxf.revision>
     <dependency.aws-java-sdk.revision>1.7.4</dependency.aws-java-sdk.revision>
-    <hadoop-shims-emr58.version>8.1-SNAPSHOT</hadoop-shims-emr58.version>
     <dependency.osgi.revision>4.3.1</dependency.osgi.revision>
     <kafka-clients.version>0.10.2.1</kafka-clients.version>
     <dependency.hamcrest.revision>1.3</dependency.hamcrest.revision>
