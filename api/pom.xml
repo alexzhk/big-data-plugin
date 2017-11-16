@@ -32,6 +32,7 @@
         <module>sqoop</module>
         <module>jaas</module>
         <module>format</module>
+        <module>jdbc</module>
       </modules>
     </profile>
     <profile>
@@ -42,7 +43,6 @@
         </property>
       </activation>
       <modules>
-        <module>jdbc</module>
       </modules>
     </profile>
   </profiles>
