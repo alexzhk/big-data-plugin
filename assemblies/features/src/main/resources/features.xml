@@ -11,7 +11,7 @@
 
   <feature name="pentaho-hadoop-shims-api" version="1.0">
     <bundle>mvn:org.pentaho/pentaho-hadoop-shims-api/${project.version}</bundle>
-    <bundle>mvn:pentaho/pentaho-big-data-legacy/${project.version}T</bundle>
+    <bundle>mvn:pentaho/pentaho-big-data-legacy/${project.version}</bundle>
   </feature>
 
   <feature name="pentaho-hadoop-shims-cdh511" version="1.0">
