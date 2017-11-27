@@ -110,7 +110,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>pentaho</groupId>
+      <groupId>org.pentaho</groupId>
       <artifactId>pentaho-big-data-impl-shim-pig</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
