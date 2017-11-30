@@ -26,7 +26,6 @@ import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.impl.cluster.tests.ClusterRuntimeTestEntry;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystem;
 import org.pentaho.di.core.Const;
-import org.pentaho.di.core.hadoop.HadoopConfigurationBootstrap;
 import org.pentaho.di.core.hadoop.NoShimSpecifiedException;
 import org.pentaho.di.core.variables.Variables;
 import org.pentaho.hadoop.shim.ConfigurationException;
