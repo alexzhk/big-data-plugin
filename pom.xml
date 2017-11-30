@@ -165,7 +165,6 @@
         </property>
       </activation>
       <modules>
-        <module>legacy</module>
       </modules>
     </profile>
     <profile>
@@ -176,6 +175,7 @@
         </property>
       </activation>
       <modules>
+        <module>legacy</module>
         <module>impl</module>
         <module>kettle-plugins</module>
         <module>osgi-jaas</module>

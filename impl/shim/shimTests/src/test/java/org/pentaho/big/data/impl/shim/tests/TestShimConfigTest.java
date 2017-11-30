@@ -24,7 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystem;
-import org.pentaho.di.core.hadoop.HadoopConfigurationBootstrap;
 import org.pentaho.di.core.hadoop.NoShimSpecifiedException;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
@@ -48,7 +47,6 @@ import static org.pentaho.runtime.test.RuntimeTestEntryUtil.verifyRuntimeTestRes
 public class TestShimConfigTest {
 
   private MessageGetterFactory messageGetterFactory;
-  private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
   private MessageGetter messageGetter;
   private TestShimConfig testShimConfig;
   private NamedCluster namedCluster;
