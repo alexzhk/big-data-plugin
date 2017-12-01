@@ -78,8 +78,9 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
     wGetFields.setText( BaseMessages.getString( PKG, "ParquetInputDialog.Fields.Get" ) );
     wGetFields.addListener( SWT.Selection, event -> {
       try {
-        setFields( ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster(), wPath.getText()
-          .trim() ) );
+        setFields( ParquetInput
+          .retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster( wPath.getText() ), wPath.getText()
+            .trim() ) );
       } catch ( ClusterInitializationException ex ) {
         if ( !BaseParquetStepDialog.checkForNonActiveShim( ex ) ) {
           throw new RuntimeException( ex );
@@ -99,14 +100,14 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
     int nrRows = fields == null ? 0 : fields.length;
     ColumnInfo[] parameterColumns = new ColumnInfo[] {
       new ColumnInfo( BaseMessages.getString( PKG, "ParquetInputDialog.Fields.column.AvroPath" ),
-          ColumnInfo.COLUMN_TYPE_TEXT, false, false ),
+        ColumnInfo.COLUMN_TYPE_TEXT, false, false ),
       new ColumnInfo( BaseMessages.getString( PKG, "ParquetInputDialog.Fields.column.Name" ),
-          ColumnInfo.COLUMN_TYPE_TEXT, false, false ),
+        ColumnInfo.COLUMN_TYPE_TEXT, false, false ),
       new ColumnInfo( BaseMessages.getString( PKG, "ParquetInputDialog.Fields.column.Type" ),
-          ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames() ) };
+        ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames() ) };
     wInputFields =
-        new TableView( transMeta, shell, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER | SWT.NO_SCROLL | SWT.V_SCROLL,
-            parameterColumns, nrRows, lsMod, props );
+      new TableView( transMeta, shell, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER | SWT.NO_SCROLL | SWT.V_SCROLL,
+        parameterColumns, nrRows, lsMod, props );
     props.setLook( wInputFields );
     new FD( wInputFields ).left( 0, 0 ).right( 100, 0 ).top( wlFields, FIELD_LABEL_SEP )
       .bottom( wGetFields, -FIELDS_SEP ).apply();
@@ -129,7 +130,7 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
   @Override
   protected void getData( ParquetInputMeta meta ) {
     if ( meta.inputFiles.fileName.length > 0 ) {
-      wPath.setText( meta.inputFiles.fileName[0] );
+      wPath.setText( meta.inputFiles.fileName[ 0 ] );
     }
     int nrFields = meta.inputFields.length;
     for ( int i = 0; i < nrFields; i++ ) {
@@ -140,7 +141,7 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
         item = new TableItem( wInputFields.table, SWT.NONE );
       }
 
-      FormatInputOutputField inputField = meta.inputFields[i];
+      FormatInputOutputField inputField = meta.inputFields[ i ];
       if ( inputField.getPath() != null ) {
         item.setText( AVRO_PATH_COLUMN_INDEX, inputField.getPath() );
       }
@@ -170,17 +171,17 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
     String filePath = wPath.getText();
     if ( filePath != null && !filePath.isEmpty() ) {
       meta.allocateFiles( 1 );
-      meta.inputFiles.fileName[0] = wPath.getText().trim();
+      meta.inputFiles.fileName[ 0 ] = wPath.getText().trim();
     }
     int nrFields = wInputFields.nrNonEmpty();
-    meta.inputFields = new FormatInputOutputField[nrFields];
+    meta.inputFields = new FormatInputOutputField[ nrFields ];
     for ( int i = 0; i < nrFields; i++ ) {
       TableItem item = wInputFields.getNonEmpty( i );
       FormatInputOutputField field = new FormatInputOutputField();
       field.setPath( item.getText( AVRO_PATH_COLUMN_INDEX ) );
       field.setName( item.getText( FIELD_NAME_COLUMN_INDEX ) );
       field.setType( ValueMetaFactory.getIdForValueMeta( item.getText( FIELD_TYPE_COLUMN_INDEX ) ) );
-      meta.inputFields[i] = field;
+      meta.inputFields[ i ] = field;
     }
   }
 
@@ -206,12 +207,13 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
       // Create the XML input step
       ParquetInputMetaBase oneMeta = (ParquetInputMeta) meta.clone();
       oneMeta.allocateFiles( 1 );
-      oneMeta.inputFiles.fileName[0] = wPath.getText().trim();
+      oneMeta.inputFiles.fileName[ 0 ] = wPath.getText().trim();
 
       try {
         SchemaDescription schema =
-            ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster(),
-              oneMeta.inputFiles.fileName[0] );
+          ParquetInput
+            .retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster( oneMeta.inputFiles.fileName[ 0 ] ),
+              oneMeta.inputFiles.fileName[ 0 ] );
         List<FormatInputOutputField> fields = new ArrayList<>();
         for ( SchemaDescription.Field f : schema ) {
           FormatInputOutputField fo = new FormatInputOutputField();
@@ -220,25 +222,25 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
           fo.setType( f.pentahoValueMetaType );
           fields.add( fo );
         }
-        oneMeta.inputFields = fields.toArray( new FormatInputOutputField[0] );
+        oneMeta.inputFields = fields.toArray( new FormatInputOutputField[ 0 ] );
       } catch ( Exception ex ) {
         throw new RuntimeException( ex );
       }
 
       TransMeta previewMeta =
-          TransPreviewFactory.generatePreviewTransformation( transMeta, oneMeta, wStepname.getText() );
+        TransPreviewFactory.generatePreviewTransformation( transMeta, oneMeta, wStepname.getText() );
 
       EnterNumberDialog numberDialog =
-          new EnterNumberDialog( shell, props.getDefaultPreviewSize(),
-              BaseMessages.getString( PKG, "ParquetInputDialog.PreviewSize.DialogTitle" ),
-              BaseMessages.getString( PKG, "ParquetInputDialog.PreviewSize.DialogMessage" ) );
+        new EnterNumberDialog( shell, props.getDefaultPreviewSize(),
+          BaseMessages.getString( PKG, "ParquetInputDialog.PreviewSize.DialogTitle" ),
+          BaseMessages.getString( PKG, "ParquetInputDialog.PreviewSize.DialogMessage" ) );
       int previewSize = numberDialog.open();
       if ( previewSize > 0 ) {
         TransPreviewProgressDialog progressDialog =
-            new TransPreviewProgressDialog( shell, previewMeta, new String[] {
-              wStepname.getText() },
-                new int[] {
-                  previewSize } );
+          new TransPreviewProgressDialog( shell, previewMeta, new String[] {
+            wStepname.getText() },
+            new int[] {
+              previewSize } );
         progressDialog.open();
 
         Trans trans = progressDialog.getTrans();
@@ -247,17 +249,17 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
         if ( !progressDialog.isCancelled() ) {
           if ( trans.getResult() != null && trans.getResult().getNrErrors() > 0 ) {
             EnterTextDialog etd =
-                new EnterTextDialog( shell, BaseMessages.getString( PKG, "System.Dialog.PreviewError.Title" ),
-                    BaseMessages.getString( PKG, "System.Dialog.PreviewError.Message" ), loggingText, true );
+              new EnterTextDialog( shell, BaseMessages.getString( PKG, "System.Dialog.PreviewError.Title" ),
+                BaseMessages.getString( PKG, "System.Dialog.PreviewError.Message" ), loggingText, true );
             etd.setReadOnly();
             etd.open();
           }
         }
 
         PreviewRowsDialog prd =
-            new PreviewRowsDialog( shell, transMeta, SWT.NONE, wStepname.getText(),
-                progressDialog.getPreviewRowsMeta( wStepname.getText() ),
-                progressDialog.getPreviewRows( wStepname.getText() ), loggingText );
+          new PreviewRowsDialog( shell, transMeta, SWT.NONE, wStepname.getText(),
+            progressDialog.getPreviewRowsMeta( wStepname.getText() ),
+            progressDialog.getPreviewRows( wStepname.getText() ), loggingText );
         prd.open();
       }
     };

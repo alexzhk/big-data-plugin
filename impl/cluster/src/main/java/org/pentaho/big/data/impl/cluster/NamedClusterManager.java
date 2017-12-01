@@ -1,23 +1,18 @@
 /*******************************************************************************
- *
  * Pentaho Big Data
- *
+ * <p>
  * Copyright (C) 2002-2017 by Hitachi Vantara : http://www.pentaho.com
- *
- *******************************************************************************
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with
+ * <p>
+ * ******************************************************************************
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  ******************************************************************************/
 
 package org.pentaho.big.data.impl.cluster;
@@ -64,7 +59,8 @@ public class NamedClusterManager implements NamedClusterService {
   }
 
   protected void initProperties() {
-    final ServiceReference<?> serviceReference = getBundleContext().getServiceReference( ConfigurationAdmin.class.getName() );
+    final ServiceReference<?> serviceReference =
+      getBundleContext().getServiceReference( ConfigurationAdmin.class.getName() );
     if ( serviceReference != null ) {
       try {
         final ConfigurationAdmin admin = (ConfigurationAdmin) getBundleContext().getService( serviceReference );
@@ -85,14 +81,15 @@ public class NamedClusterManager implements NamedClusterService {
    * NOTE:  This method caches and returns a factory for Embedded MetaStores.  For all other
    * MetaStores, a new instance of MetaStoreFactory will always be returned.
    *
-   * @param  metastore - the MetaStore for which to to get a MetaStoreFactory.
+   * @param metastore - the MetaStore for which to to get a MetaStoreFactory.
    * @return a MetaStoreFactory for the given MetaStore.
    */
   @VisibleForTesting
   MetaStoreFactory<NamedClusterImpl> getMetaStoreFactory( IMetaStore metastore ) {
     MetaStoreFactory<NamedClusterImpl> namedClusterMetaStoreFactory = null;
 
-    // Only MetaStoreFactories for EmbeddedMetaStores are cached.  For all other MetaStore types, create a new MetaStoreFactory
+    // Only MetaStoreFactories for EmbeddedMetaStores are cached.  For all other MetaStore types, create a new
+    // MetaStoreFactory
     if ( !( metastore instanceof EmbeddedMetaStore ) ) {
       return new MetaStoreFactory<>( NamedClusterImpl.class, metastore, PentahoDefaults.NAMESPACE );
     }
@@ -102,7 +99,7 @@ public class NamedClusterManager implements NamedClusterService {
 
     if ( namedClusterMetaStoreFactory == null ) {
       namedClusterMetaStoreFactory =
-              new MetaStoreFactory<>( NamedClusterImpl.class, metastore, NamedClusterEmbedManager.NAMESPACE );
+        new MetaStoreFactory<>( NamedClusterImpl.class, metastore, NamedClusterEmbedManager.NAMESPACE );
 
       factoryMap.put( metastore, namedClusterMetaStoreFactory );
     }
@@ -115,7 +112,8 @@ public class NamedClusterManager implements NamedClusterService {
     factoryMap.put( metastore, metaStoreFactory );
   }
 
-  @Override public void close( IMetaStore metastore ) {
+  @Override
+  public void close( IMetaStore metastore ) {
     factoryMap.remove( metastore );
   }
 
@@ -166,7 +164,7 @@ public class NamedClusterManager implements NamedClusterService {
 
   @Override
   public List<NamedCluster> list( IMetaStore metastore ) throws MetaStoreException {
-    return new ArrayList<NamedCluster>( getMetaStoreFactory( metastore ).getElements() );
+    return new ArrayList<>( getMetaStoreFactory( metastore ).getElements() );
   }
 
   @Override
@@ -202,5 +200,34 @@ public class NamedClusterManager implements NamedClusterService {
 
   public Map<String, Object> getProperties() {
     return properties;
+  }
+
+  @Override
+  public NamedCluster getNamedClusterByHost( String hostName, IMetaStore metastore ) {
+    if ( metastore == null || hostName == null ) {
+      return null;
+    }
+    try {
+      List<NamedCluster> namedClusters = list( metastore );
+      for ( NamedCluster nc : namedClusters ) {
+        if ( nc.getHdfsHost().equals( hostName ) ) {
+          return nc;
+        }
+      }
+    } catch ( MetaStoreException e ) {
+      return null;
+    }
+    return null;
+  }
+
+  @Override
+  public void updateNamedClusterTemplate( String hostName, int port, boolean isMapr ) {
+    clusterTemplate.setHdfsHost( hostName );
+    if ( port > 0 ) {
+      clusterTemplate.setHdfsPort( String.valueOf( port ) );
+    } else {
+      clusterTemplate.setHdfsPort( "" );
+    }
+    clusterTemplate.setMapr( isMapr );
   }
 }

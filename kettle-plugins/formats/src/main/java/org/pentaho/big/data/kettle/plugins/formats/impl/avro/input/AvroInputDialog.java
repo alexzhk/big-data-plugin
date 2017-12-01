@@ -108,7 +108,9 @@ public class AvroInputDialog extends BaseAvroStepDialog<AvroInputMeta> {
     String avroFileName = wPath.getText();
     avroFileName = transMeta.environmentSubstitute( avroFileName );
     try {
-      SchemaDescription schemaDescription = AvroInput.retrieveSchema( meta.getNamedClusterServiceLocator(), meta.getNamedCluster(), schemaFileName, avroFileName );
+      SchemaDescription schemaDescription = AvroInput
+        .retrieveSchema( meta.getNamedClusterServiceLocator(), meta.getNamedCluster( avroFileName ), schemaFileName,
+          avroFileName );
       wInputFields.clearAll();
       for ( SchemaDescription.Field field : schemaDescription ) {
         TableItem item = new TableItem( wInputFields.table, SWT.NONE );
@@ -170,13 +172,13 @@ public class AvroInputDialog extends BaseAvroStepDialog<AvroInputMeta> {
         ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames() ),
       new ColumnInfo( BaseMessages.getString( PKG, "AvroInputDialog.Fields.column.SourceType" ),
         ColumnInfo.COLUMN_TYPE_TEXT, ValueMetaFactory.getValueMetaNames(), true ) };
-    parameterColumns[0].setAutoResize( false );
-    parameterColumns[1].setUsingVariables( true );
-    parameterColumns[3].setAutoResize( false );
+    parameterColumns[ 0 ].setAutoResize( false );
+    parameterColumns[ 1 ].setUsingVariables( true );
+    parameterColumns[ 3 ].setAutoResize( false );
 
     wInputFields =
-        new TableView( transMeta, wComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER | SWT.NO_SCROLL | SWT.V_SCROLL,
-            parameterColumns, 7, null, props );
+      new TableView( transMeta, wComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER | SWT.NO_SCROLL | SWT.V_SCROLL,
+        parameterColumns, 7, null, props );
     ColumnsResizer resizer = new ColumnsResizer( 0, 50, 25, 25, 0 );
     wInputFields.getTable().addListener( SWT.Resize, resizer );
 

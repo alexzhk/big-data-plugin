@@ -79,7 +79,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInterface> extends BaseStepDialog
-    implements StepDialogInterface {
+  implements StepDialogInterface {
   protected final Class<?> PKG = getClass();
   protected final Class<?> BPKG = BaseParquetStepDialog.class;
 
@@ -104,7 +104,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
 
   protected static final String[] FILES_FILTERS = { "*.*" };
   protected static final String[] fileFilterNames =
-      new String[] { BaseMessages.getString( "System.FileType.AllFiles" ) };
+    new String[] { BaseMessages.getString( "System.FileType.AllFiles" ) };
 
   private static final String HDFS_SCHEME = "hdfs";
 
@@ -162,7 +162,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
     return stepname;
   }
 
-  protected void createUI(  ) {
+  protected void createUI() {
     Control prev = createHeader();
 
     //main fields
@@ -229,23 +229,21 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
   /**
    * Read the data from the meta object and show it in this dialog.
    *
-   * @param meta
-   *          The meta object to obtain the data from.
+   * @param meta The meta object to obtain the data from.
    */
   protected abstract void getData( T meta );
 
   /**
    * Fill meta object from UI options.
    *
-   * @param meta
-   *          meta object
-   * @param preview
-   *          flag for preview or real options should be used. Currently, only one option is differ for preview - EOL
-   *          chars. It uses as "mixed" for be able to preview any file.
+   * @param meta    meta object
+   * @param preview flag for preview or real options should be used. Currently, only one option is differ for preview -
+   *                EOL chars. It uses as "mixed" for be able to preview any file.
    */
   protected abstract void getInfo( T meta, boolean preview );
 
   protected abstract int getWidth();
+
   protected abstract int getHeight();
 
   protected abstract Listener getPreview();
@@ -293,7 +291,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
   protected void addIcon( Control bottom ) {
     String stepId = meta.getParentStepMeta().getStepID();
     icon = GUIResource.getInstance().getImagesSteps().get( stepId ).getAsBitmapForSize( shell.getDisplay(),
-            ConstUI.ICON_SIZE, ConstUI.ICON_SIZE );
+      ConstUI.ICON_SIZE, ConstUI.ICON_SIZE );
     Composite iconCont = new Composite( shell, SWT.NONE );
     new FD( iconCont ).top( 0, 0 ).right( 100, 0 ).bottom( bottom, -MARGIN ).width( ConstUI.ICON_SIZE ).apply();
     RowLayout iconLayout = new RowLayout( SWT.VERTICAL );
@@ -312,7 +310,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
     wlLocation.setText( getBaseMsg( "ParquetDialog.Location.Label" ) );
     props.setLook( wlLocation );
     new FD( wlLocation ).left( 0, 0 ).top( prev, MARGIN ).apply();
-    wLocation = new CCombo( shell, SWT.BORDER  | SWT.READ_ONLY  );
+    wLocation = new CCombo( shell, SWT.BORDER | SWT.READ_ONLY );
     try {
       List<VFSScheme> availableVFSSchemes = getAvailableVFSSchemes();
       availableVFSSchemes.forEach( scheme -> wLocation.add( scheme.getSchemeName() ) );
@@ -434,6 +432,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
       fd.left = new FormAttachment( numerator, offset );
       return this;
     }
+
     public FD left( int numerator ) {
       return left( numerator, 0 );
     }
@@ -525,7 +524,7 @@ public abstract class BaseParquetStepDialog<T extends BaseStepMeta & StepMetaInt
           Point size = event.gc.textExtent( contents );
           int targetWidth = item.getBounds( colIdx ).width;
           int yOffset = Math.max( 0, ( event.height - size.y ) / 2 );
-            if ( size.x > targetWidth ) {
+          if ( size.x > targetWidth ) {
             contents = shortenText( event.gc, contents, targetWidth );
           }
           event.gc.drawText( contents, event.x + TABLE_ITEM_MARGIN, event.y + yOffset, true );
