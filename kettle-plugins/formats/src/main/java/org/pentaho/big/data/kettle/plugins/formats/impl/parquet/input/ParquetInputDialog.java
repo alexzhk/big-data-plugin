@@ -78,7 +78,7 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
     wGetFields.setText( BaseMessages.getString( PKG, "ParquetInputDialog.Fields.Get" ) );
     wGetFields.addListener( SWT.Selection, event -> {
       try {
-        setFields( ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster(), wPath.getText()
+        setFields( ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster( wPath.getText() ), wPath.getText()
           .trim() ) );
       } catch ( ClusterInitializationException ex ) {
         if ( !BaseParquetStepDialog.checkForNonActiveShim( ex ) ) {
@@ -210,7 +210,7 @@ public class ParquetInputDialog extends BaseParquetStepDialog<ParquetInputMeta> 
 
       try {
         SchemaDescription schema =
-            ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster(),
+            ParquetInput.retrieveSchema( meta.namedClusterServiceLocator, meta.getNamedCluster( oneMeta.inputFiles.fileName[ 0 ] ),
               oneMeta.inputFiles.fileName[0] );
         List<FormatInputOutputField> fields = new ArrayList<>();
         for ( SchemaDescription.Field f : schema ) {
