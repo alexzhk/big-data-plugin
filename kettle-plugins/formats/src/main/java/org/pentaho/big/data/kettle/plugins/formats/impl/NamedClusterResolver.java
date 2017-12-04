@@ -25,6 +25,7 @@ package org.pentaho.big.data.kettle.plugins.formats.impl;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.NamedClusterService;
 import org.pentaho.di.core.osgi.api.MetastoreLocatorOsgi;
+import org.pentaho.metastore.api.exceptions.MetaStoreException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -64,7 +65,12 @@ public abstract class NamedClusterResolver {
       namedCluster = namedClusterService.getNamedClusterByHost( hostName, metaStoreService.getMetastore() );
     }
     if ( namedCluster == null ) {
-      namedCluster = namedClusterService.getClusterTemplate();
+      try {
+        namedCluster = namedClusterService.list( metaStoreService.getMetastore() ).get( 0 );
+      } catch ( MetaStoreException e ) {
+        e.printStackTrace();
+      }
+      //namedCluster = namedClusterService.getClusterTemplate();
     }
     return namedCluster;
   }
