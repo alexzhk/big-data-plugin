@@ -323,7 +323,7 @@ public class NamedClusterComposite extends Composite {
 
     // Create a storage type Drop Down
     final CCombo shimVendorCombo = new CCombo( container, SWT.BORDER );
-    String[] vendorList = new String[]{ "cdh511", "hdp26" };
+    String[] vendorList = new String[]{ "cdh513", "hdp26" };
     shimVendorCombo.setItems( vendorList );
     shimVendorCombo.select( Arrays.asList(vendorList).indexOf( cluster.getShimIdentifier() ) );
     props.setLook( shimVendorCombo );
