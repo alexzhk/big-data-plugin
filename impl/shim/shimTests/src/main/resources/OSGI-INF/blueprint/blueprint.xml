@@ -28,17 +28,17 @@
   <!--</bean>-->
 
   <bean id="testShimLoad" class="org.pentaho.big.data.impl.shim.tests.TestShimLoad">
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
     <argument ref="messageGetterFactory"/>
   </bean>
 
   <bean id="testShimConfig" class="org.pentaho.big.data.impl.shim.tests.TestShimConfig">
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
     <argument ref="messageGetterFactory"/>
   </bean>
 
   <service ref="testShimLoad" interface="org.pentaho.runtime.test.RuntimeTest"/>
   <service ref="testShimConfig" interface="org.pentaho.runtime.test.RuntimeTest"/>
   <reference id="messageGetterFactory" interface="org.pentaho.runtime.test.i18n.MessageGetterFactory"/>
-  <reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
 </blueprint>

@@ -16,7 +16,7 @@
     <spring.security.version>4.1.3.RELEASE</spring.security.version>
     <apache-xmlgraphics.revision>1.8</apache-xmlgraphics.revision>
     <dependency.hadoop-shims-hdp26.revision>8.1-SNAPSHOT</dependency.hadoop-shims-hdp26.revision>
-    <dependency.hadoop-shims-cdh511.revision>8.1-SNAPSHOT</dependency.hadoop-shims-cdh511.revision>
+    <dependency.hadoop-shims-cdh513.revision>8.1-SNAPSHOT</dependency.hadoop-shims-cdh513.revision>
     <dependency.hadoop-shims-api.revision>8.1-SNAPSHOT</dependency.hadoop-shims-api.revision>
   </properties>
   <dependencies>
