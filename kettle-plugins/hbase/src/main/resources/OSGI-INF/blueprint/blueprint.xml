@@ -10,6 +10,7 @@
     <argument ref="namedClusterServiceLocator"/>
     <argument ref="runtimeTestActionService"/>
     <argument ref="runtimeTester"/>
+    <argument ref="metastoreLocatorOsgi"/>
     <pen:di-plugin type="org.pentaho.di.core.plugins.StepPluginType"/>
   </bean>
   <bean id="hBaseOutputMeta" class="org.pentaho.big.data.kettle.plugins.hbase.output.HBaseOutputMeta" scope="prototype">
